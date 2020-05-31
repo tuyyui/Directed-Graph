@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+#include <memory>
+#define null 0
+typedef unsigned int _UI;
+struct Node{
+  std::shared_ptr<Node> next = std::make_shared<Node>();
+
+  _UI data;
+};
+class DirectedGraph{
+private:
+    std::vector<std::shared_ptr<Node> > Vec;
+    std::shared_ptr<Node> head = std::make_shared<Node>();
+    std::shared_ptr<Node> temp = std::make_shared<Node>();
+
+public:
+///Constructor
+  DirectedGraph(){
+  head = NULL;
+  temp = NULL;
+  }
+
+
+       /// Creating Vectors
+    inline void AddVector(std::shared_ptr<Node> NewVec);
+    void CreateVectors(_UI NumOfVecs);
+    std::shared_ptr<Node> GetStartVector(_UI);
+    void AddNodeToEdge (_UI VectorPosition, _UI data_);
+    void PrintVectors ();
+
+
+
+};
+void DirectedGraph::PrintVectors(){
+std::shared_ptr<Node> n = std::make_shared<Node>();
+n = head;
+while(n != NULL){
+         std::cout << n->data << std::endl;
+        n = n->next;
+
+}
+}
+void DirectedGraph::AddNodeToEdge(_UI VectorPosition, _UI data_){
+  std::shared_ptr<Node> Graph = GetStartVector(VectorPosition);
+  Graph->data = data_;
+  if(this->head == NULL){
+        head = Graph;
+        temp = Graph;
+  }
+  else
+  {
+      temp->next = Graph;
+      temp = temp->next;
+
+  }
+
+
+}
+ std::shared_ptr<Node> DirectedGraph::GetStartVector(_UI VectorPosition){
+  ///Getting the starting Vector
+  std::shared_ptr<Node> NewVec = std::make_shared<Node>();
+  for(_UI i = 0; i < Vec.size(); i++){
+    if(i == VectorPosition){
+        NewVec = Vec.at(i);
+    }
+
+  }
+  return NewVec;
+}
+
+
+void DirectedGraph::CreateVectors(_UI NumOfVecs){
+std::shared_ptr<Node> NewVec = std::make_shared<Node>();
+
+  for(_UI i = 0; i < NumOfVecs; i++)
+  {
+    AddVector(NewVec);
+  }
+}
+inline void DirectedGraph::AddVector(std::shared_ptr<Node> NewVec){
+NewVec = std::make_shared<Node>();
+this->Vec.push_back(NewVec);
+}
+
+
+int main(){
+
+return 0;
+}
